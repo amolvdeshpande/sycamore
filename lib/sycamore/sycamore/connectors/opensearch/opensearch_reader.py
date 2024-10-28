@@ -89,6 +89,7 @@ class OpenSearchReaderQueryResponse(BaseDBReader.QueryResponse):
                     }
                 )
                 doc.properties[DocumentPropertyTypes.SOURCE] = DocumentSource.DB_QUERY
+                doc.properties["score"] = data["_score"]
                 result.append(doc)
         else:
             assert (
@@ -168,8 +169,8 @@ class OpenSearchReaderQueryResponse(BaseDBReader.QueryResponse):
         """
         Returns all records in OpenSearch belonging to a list of Document ids (element.parent_id)
         """
-        batch_size = 1000
-        page_size = 1000
+        batch_size = 100
+        page_size = 500
 
         all_elements = []
         for i in range(0, len(doc_ids), batch_size):
